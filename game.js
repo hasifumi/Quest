@@ -13,7 +13,7 @@
       WIDTH: 320,
       HEIGHT: 320,
       FPS: 30,
-      IMAGES: ["title.png", "effect0.gif", "graphic.png", "player.png", "pad.png", "apad.png", "battlebg.png", "enemy001.png", "enemy021.png", "enemy030.png", "btleffect001.png", "btleffect002.png", "btleffect003.png", "btleffect004.png", "btleffect005.png", "btleffect006.png", "btleffect007.png", "btleffect008.png", "btleffect009.png", "btleffect010.png"]
+      IMAGES: ["image/title.png", "image/effect0.gif", "image/graphic.png", "image/player.png", "image/pad.png", "image/apad.png", "image/battlebg.png", "image/enemy001.png", "image/enemy021.png", "image/enemy030.png", "image/btleffect001.png", "image/btleffect002.png", "image/btleffect003.png", "image/btleffect004.png", "image/btleffect005.png", "image/btleffect006.png", "image/btleffect007.png", "image/btleffect008.png", "image/btleffect009.png", "image/btleffect010.png"]
     };
 
     function Quest() {
@@ -54,7 +54,7 @@
       TitleScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
       bg = new Sprite(320, 320);
-      bg.image = game.assets["title.png"];
+      bg.image = game.assets["image/title.png"];
       this.addChild(bg);
       this.addEventListener('touchend', function() {
         var _this = this;
@@ -142,7 +142,7 @@
       var game;
       Player.__super__.constructor.call(this, 32, 32);
       game = enchant.Game.instance;
-      this.image = game.assets["player.png"];
+      this.image = game.assets["image/player.png"];
       this.frame = 0;
       this.isMoving = false;
       this.direction = 0;
@@ -217,24 +217,24 @@
       BattleScene.__super__.constructor.call(this);
       this.game = enchant.Game.instance;
       bg = new Sprite(320, 240);
-      bg.image = this.game.assets["battlebg.png"];
+      bg.image = this.game.assets["image/battlebg.png"];
       this.addChild(bg);
       mon1 = new Sprite(120, 120);
-      mon1.image = this.game.assets["enemy001.png"];
+      mon1.image = this.game.assets["image/enemy001.png"];
       mon1.x = 20;
       mon1.y = 80;
       this.addChild(mon1);
       mon2 = new Sprite(120, 120);
-      mon2.image = this.game.assets["enemy021.png"];
+      mon2.image = this.game.assets["image/enemy021.png"];
       mon2.x = 180;
       mon2.y = 80;
       this.addChild(mon2);
       mon3 = new Sprite(320, 150);
-      mon3.image = this.game.assets["enemy030.png"];
+      mon3.image = this.game.assets["image/enemy030.png"];
       mon3.x = 0;
       mon3.y = 50;
       this.eft1 = new Sprite(120, 120);
-      this.eft1.image = this.game.assets["btleffect001.png"];
+      this.eft1.image = this.game.assets["image/btleffect001.png"];
       this.eft1.x = 180;
       this.eft1.y = 50;
       this.eft1.frameList = [0, 1, 2, 3, 4];
@@ -266,37 +266,37 @@
           _this.rand = Math.floor(Math.random() * 9);
           switch (_this.rand) {
             case 0:
-              _this.eft1.image = _this.game.assets["btleffect001.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect001.png"];
               break;
             case 1:
-              _this.eft1.image = _this.game.assets["btleffect002.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect002.png"];
               break;
             case 2:
-              _this.eft1.image = _this.game.assets["btleffect003.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect003.png"];
               break;
             case 3:
-              _this.eft1.image = _this.game.assets["btleffect004.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect004.png"];
               break;
             case 4:
-              _this.eft1.image = _this.game.assets["btleffect005.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect005.png"];
               break;
             case 5:
-              _this.eft1.image = _this.game.assets["btleffect006.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect006.png"];
               break;
             case 6:
-              _this.eft1.image = _this.game.assets["btleffect007.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect007.png"];
               break;
             case 7:
-              _this.eft1.image = _this.game.assets["btleffect008.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect008.png"];
               break;
             case 8:
-              _this.eft1.image = _this.game.assets["btleffect009.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect009.png"];
               break;
             case 9:
-              _this.eft1.image = _this.game.assets["btleffect010.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect010.png"];
               break;
             default:
-              _this.eft1.image = _this.game.assets["btleffect001.png"];
+              _this.eft1.image = _this.game.assets["image/btleffect001.png"];
           }
           flg = Math.floor(Math.random() * 5);
           console.log("3:flg:" + flg);
@@ -366,7 +366,7 @@
     function Pad() {
       var game, image;
       game = enchant.Game.instance;
-      image = game.assets['pad.png'];
+      image = game.assets['image/pad.png'];
       Pad.__super__.constructor.call(this, image.width / 2, image.height);
       this.image = image;
       this.input = {
@@ -428,7 +428,7 @@
     function APad(mode) {
       var game, h, image, insideImage, outsideImage, w;
       game = enchant.Game.instance;
-      image = game.assets["apad.png"];
+      image = game.assets["image/apad.png"];
       w = this.width = image.width;
       h = this.height = image.height;
       APad.__super__.constructor.apply(this, arguments);

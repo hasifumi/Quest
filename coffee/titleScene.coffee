@@ -3,7 +3,7 @@ class TitleScene extends Scene
     super()
     game = enchant.Game.instance
     bg = new Sprite(320, 320)
-    bg.image = game.assets["title.png"]
+    bg.image = game.assets["image/title.png"]
     @addChild bg
     @addEventListener 'touchend',()->
       console.log "title touched"

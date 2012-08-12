@@ -1,7 +1,7 @@
 class Pad extends Sprite
   constructor:->
     game = enchant.Game.instance
-    image = game.assets['pad.png']
+    image = game.assets['image/pad.png']
     super(image.width/2, image.height)
     @image = image
     @input = {
@@ -62,7 +62,7 @@ class Pad extends Sprite
 class APad extends Group
   constructor:(mode)->
     game = enchant.Game.instance
-    image = game.assets["apad.png"]
+    image = game.assets["image/apad.png"]
     w = @width = image.width
     h = @height = image.height
     super

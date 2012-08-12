@@ -2,7 +2,7 @@ class Player extends Sprite
   constructor:(map)->
     super(32, 32)
     game = enchant.Game.instance
-    @image = game.assets["player.png"]
+    @image = game.assets["image/player.png"]
     @frame = 0
     @isMoving = false
     @direction = 0

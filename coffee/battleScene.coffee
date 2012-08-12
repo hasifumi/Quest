@@ -5,29 +5,29 @@ class BattleScene extends Scene
     @game = enchant.Game.instance
 
     bg = new Sprite(320, 240)
-    bg.image = @game.assets["battlebg.png"]
+    bg.image = @game.assets["image/battlebg.png"]
     @addChild bg
 
     mon1 = new Sprite(120, 120)
-    mon1.image = @game.assets["enemy001.png"]
+    mon1.image = @game.assets["image/enemy001.png"]
     mon1.x = 20
     mon1.y = 80
     @addChild mon1
 
     mon2 = new Sprite(120, 120)
-    mon2.image = @game.assets["enemy021.png"]
+    mon2.image = @game.assets["image/enemy021.png"]
     mon2.x = 180
     mon2.y = 80
     @addChild mon2
     
     mon3 = new Sprite(320, 150)
-    mon3.image = @game.assets["enemy030.png"]
+    mon3.image = @game.assets["image/enemy030.png"]
     mon3.x = 0
     mon3.y = 50
     #@addChild mon3
     
     @eft1 = new Sprite(120, 120)
-    @eft1.image = @game.assets["btleffect001.png"]
+    @eft1.image = @game.assets["image/btleffect001.png"]
     @eft1.x = 180
     @eft1.y = 50
     @eft1.frameList = [0..4]
@@ -62,27 +62,27 @@ class BattleScene extends Scene
         @rand = Math.floor(Math.random()*9)
         switch @rand
           when 0
-            @eft1.image = @game.assets["btleffect001.png"]
+            @eft1.image = @game.assets["image/btleffect001.png"]
           when 1
-            @eft1.image = @game.assets["btleffect002.png"]
+            @eft1.image = @game.assets["image/btleffect002.png"]
           when 2
-            @eft1.image = @game.assets["btleffect003.png"]
+            @eft1.image = @game.assets["image/btleffect003.png"]
           when 3
-            @eft1.image = @game.assets["btleffect004.png"]
+            @eft1.image = @game.assets["image/btleffect004.png"]
           when 4
-            @eft1.image = @game.assets["btleffect005.png"]
+            @eft1.image = @game.assets["image/btleffect005.png"]
           when 5
-            @eft1.image = @game.assets["btleffect006.png"]
+            @eft1.image = @game.assets["image/btleffect006.png"]
           when 6
-            @eft1.image = @game.assets["btleffect007.png"]
+            @eft1.image = @game.assets["image/btleffect007.png"]
           when 7
-            @eft1.image = @game.assets["btleffect008.png"]
+            @eft1.image = @game.assets["image/btleffect008.png"]
           when 8
-            @eft1.image = @game.assets["btleffect009.png"]
+            @eft1.image = @game.assets["image/btleffect009.png"]
           when 9
-            @eft1.image = @game.assets["btleffect010.png"]
+            @eft1.image = @game.assets["image/btleffect010.png"]
           else
-            @eft1.image = @game.assets["btleffect001.png"]
+            @eft1.image = @game.assets["image/btleffect001.png"]
         flg = Math.floor(Math.random()*5)
         console.log("3:flg:"+flg)
         console.log("btlFlg:"+btlFlg)
