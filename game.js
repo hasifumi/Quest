@@ -13,7 +13,7 @@
       WIDTH: 320,
       HEIGHT: 320,
       FPS: 30,
-      IMAGES: ["title.png", "effect0.gif", "graphic.png", "player.png", "pad.png", "apad.png", "battlebg.png", "enemy001.png", "enemy021.png", "enemy030.png"]
+      IMAGES: ["title.png", "effect0.gif", "graphic.png", "player.png", "pad.png", "apad.png", "battlebg.png", "enemy001.png", "enemy021.png", "enemy030.png", "btleffect001.png", "btleffect002.png", "btleffect003.png", "btleffect004.png", "btleffect005.png", "btleffect006.png", "btleffect007.png", "btleffect008.png", "btleffect009.png", "btleffect010.png"]
     };
 
     function Quest() {
@@ -63,7 +63,7 @@
           return bg.opacity -= 0.1;
         }, 100);
         return setTimeout(function() {
-          return game.replaceScene(game.scenes.field);
+          return game.replaceScene(game.scenes.battle);
         }, 1000);
       });
     }
@@ -96,7 +96,7 @@
     __extends(FieldScene, _super);
 
     function FieldScene() {
-      var apad, game, map001, player, stage;
+      var apad, counter, game, map001, player, stage;
       FieldScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
       map001 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
@@ -112,6 +112,11 @@
       apad.x = 0;
       apad.y = 220;
       this.addChild(apad);
+      counter = new Label();
+      counter.text = 0;
+      counter.x = 50;
+      counter.y = 100;
+      this.addChild(counter);
       this.addEventListener('enterframe', function(e) {
         var x, y;
         x = Math.min((game.width - 32) / 2 - player.x, 0);
@@ -119,7 +124,9 @@
         x = Math.max(game.width, x + map001.width) - map001.width;
         y = Math.max(game.height, y + map001.height) - map001.height;
         stage.x = x;
-        return stage.y = y;
+        stage.y = y;
+        counter.text++;
+        if (counter.text % 200 === 0) return game.replaceScene(game.scenes.battle);
       });
     }
 
@@ -205,27 +212,35 @@
     __extends(BattleScene, _super);
 
     function BattleScene() {
-      var bg, flg, game, mon1, mon2, mon3,
+      var bg, btlFlg, flg, mon1, mon2, mon3,
         _this = this;
       BattleScene.__super__.constructor.call(this);
-      game = enchant.Game.instance;
+      this.game = enchant.Game.instance;
       bg = new Sprite(320, 240);
-      bg.image = game.assets["battlebg.png"];
+      bg.image = this.game.assets["battlebg.png"];
       this.addChild(bg);
       mon1 = new Sprite(120, 120);
-      mon1.image = game.assets["enemy001.png"];
+      mon1.image = this.game.assets["enemy001.png"];
       mon1.x = 20;
       mon1.y = 80;
       this.addChild(mon1);
       mon2 = new Sprite(120, 120);
-      mon2.image = game.assets["enemy021.png"];
+      mon2.image = this.game.assets["enemy021.png"];
       mon2.x = 180;
       mon2.y = 80;
       this.addChild(mon2);
       mon3 = new Sprite(320, 150);
-      mon3.image = game.assets["enemy030.png"];
+      mon3.image = this.game.assets["enemy030.png"];
       mon3.x = 0;
       mon3.y = 50;
+      this.eft1 = new Sprite(120, 120);
+      this.eft1.image = this.game.assets["btleffect001.png"];
+      this.eft1.x = 180;
+      this.eft1.y = 50;
+      this.eft1.frameList = [0, 1, 2, 3, 4];
+      this.eft1.framIndex = 0;
+      btlFlg = false;
+      this.frame = 0;
       flg = 0;
       this.addEventListener('enter', function() {
         flg = Math.floor(Math.random() * 5);
@@ -233,22 +248,112 @@
       });
       this.addEventListener('touchend', function() {
         if (flg % 5 === 1) {
+          _this.removeChild(_this.eft1);
+          btlFlg = false;
           _this.removeChild(mon1);
           _this.removeChild(mon2);
           _this.addChild(mon3);
           flg = Math.floor(Math.random() * 5);
           return console.log("1:flg:" + flg);
         } else if (flg % 5 === 2) {
-          return game.replaceScene(game.scenes.field);
+          _this.removeChild(_this.eft1);
+          btlFlg = false;
+          flg = Math.floor(Math.random() * 5);
+          return console.log("2:flg:" + flg);
+        } else if (flg % 5 === 3) {
+          _this.addChild(_this.eft1);
+          btlFlg = true;
+          _this.rand = Math.floor(Math.random() * 9);
+          switch (_this.rand) {
+            case 0:
+              _this.eft1.image = _this.game.assets["btleffect001.png"];
+              break;
+            case 1:
+              _this.eft1.image = _this.game.assets["btleffect002.png"];
+              break;
+            case 2:
+              _this.eft1.image = _this.game.assets["btleffect003.png"];
+              break;
+            case 3:
+              _this.eft1.image = _this.game.assets["btleffect004.png"];
+              break;
+            case 4:
+              _this.eft1.image = _this.game.assets["btleffect005.png"];
+              break;
+            case 5:
+              _this.eft1.image = _this.game.assets["btleffect006.png"];
+              break;
+            case 6:
+              _this.eft1.image = _this.game.assets["btleffect007.png"];
+              break;
+            case 7:
+              _this.eft1.image = _this.game.assets["btleffect008.png"];
+              break;
+            case 8:
+              _this.eft1.image = _this.game.assets["btleffect009.png"];
+              break;
+            case 9:
+              _this.eft1.image = _this.game.assets["btleffect010.png"];
+              break;
+            default:
+              _this.eft1.image = _this.game.assets["btleffect001.png"];
+          }
+          flg = Math.floor(Math.random() * 5);
+          console.log("3:flg:" + flg);
+          console.log("btlFlg:" + btlFlg);
+          return console.log("@rand:" + _this.rand);
         } else {
+          _this.removeChild(_this.eft1);
+          btlFlg = false;
           _this.removeChild(mon3);
           _this.addChild(mon1);
           _this.addChild(mon2);
           flg = Math.floor(Math.random() * 5);
-          return console.log("2:flg:" + flg);
+          return console.log("else:flg:" + flg);
+        }
+      });
+      this.addEventListener('enterframe', function() {
+        _this.frame++;
+        if (_this.frame % 3 === 0) {
+          if (btlFlg) {
+            _this.eft1.frame++;
+            if (_this.eft1.frame >= _this.eft1.frameList.length) {
+              _this.eft1.frame = 0;
+              _this.removeChild(_this.eft1);
+              return btlFlg = false;
+            }
+          }
         }
       });
     }
+
+    BattleScene._randEft = function() {
+      this.rand = Math.floor(Math.random() * 9);
+      switch (this.rand) {
+        case 0:
+          return this.eft1.image = this.game.assets["btleffect001.png"];
+        case 1:
+          return this.eft1.image = this.game.assets["btleffect002.png"];
+        case 2:
+          return this.eft1.image = this.game.assets["btleffect003.png"];
+        case 3:
+          return this.eft1.image = this.game.assets["btleffect004.png"];
+        case 4:
+          return this.eft1.image = this.game.assets["btleffect005.png"];
+        case 5:
+          return this.eft1.image = this.game.assets["btleffect006.png"];
+        case 6:
+          return this.eft1.image = this.game.assets["btleffect007.png"];
+        case 7:
+          return this.eft1.image = this.game.assets["btleffect008.png"];
+        case 8:
+          return this.eft1.image = this.game.assets["btleffect009.png"];
+        case 9:
+          return this.eft1.image = this.game.assets["btleffect010.png"];
+        default:
+          return this.eft1.image = this.game.assets["btleffect001.png"];
+      }
+    };
 
     return BattleScene;
 

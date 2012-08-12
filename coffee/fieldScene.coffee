@@ -28,6 +28,12 @@ class FieldScene extends Scene
     apad.y = 220
     @addChild apad
 
+    counter = new Label()
+    counter.text = 0
+    counter.x = 50
+    counter.y = 100
+    @addChild counter
+
     @addEventListener 'enterframe', (e)->
       x = Math.min((game.width  - 32) / 2 - player.x, 0)
       y = Math.min((game.height - 32) / 2 - player.y, 0)
@@ -35,6 +41,9 @@ class FieldScene extends Scene
       y = Math.max(game.height, y + map001.height) - map001.height
       stage.x = x
       stage.y = y
+      counter.text++
+      if counter.text % 200 is 0
+        game.replaceScene game.scenes.battle
 
     #lbl_left = new Label("left:")# {{{
     #lbl_left.color = "red"

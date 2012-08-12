@@ -12,6 +12,7 @@ class TitleScene extends Scene
       , 100
       setTimeout =>
         #game.replaceScene(game.scenes.jobSelect)
-        game.replaceScene(game.scenes.field)
+        #game.replaceScene(game.scenes.field)
+        game.replaceScene(game.scenes.battle)
       , 1000
 

@@ -15,6 +15,16 @@ class Quest extends Game
       "enemy001.png"
       "enemy021.png"
       "enemy030.png"
+      "btleffect001.png"
+      "btleffect002.png"
+      "btleffect003.png"
+      "btleffect004.png"
+      "btleffect005.png"
+      "btleffect006.png"
+      "btleffect007.png"
+      "btleffect008.png"
+      "btleffect009.png"
+      "btleffect010.png"
     ],
   }
   constructor:->
