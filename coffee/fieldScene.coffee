@@ -7,7 +7,8 @@ class FieldScene extends Scene
     map001 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth)
     map001.image = game.assets[tiled[0].image]
     map001.loadData.apply(map001, tiled[0].background)
-    map001.collisionData = tiled[0].collision
+    if tiled[0].collision?
+      map001.collisionData = tiled[0].collision
     #@addChild map001
 
     player = new Player(map001)
@@ -42,7 +43,7 @@ class FieldScene extends Scene
       stage.x = x
       stage.y = y
       counter.text++
-      if counter.text % 200 is 0
+      if counter.text % 400 is 0
         game.replaceScene game.scenes.battle
 
     #lbl_left = new Label("left:")# {{{

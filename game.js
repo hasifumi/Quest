@@ -63,7 +63,7 @@
           return bg.opacity -= 0.1;
         }, 100);
         return setTimeout(function() {
-          return game.replaceScene(game.scenes.battle);
+          return game.replaceScene(game.scenes.field);
         }, 1000);
       });
     }
@@ -102,7 +102,7 @@
       map001 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
       map001.image = game.assets[tiled[0].image];
       map001.loadData.apply(map001, tiled[0].background);
-      map001.collisionData = tiled[0].collision;
+      if (tiled[0].collision != null) map001.collisionData = tiled[0].collision;
       player = new Player(map001);
       stage = new Group();
       stage.addChild(map001);
@@ -126,7 +126,7 @@
         stage.x = x;
         stage.y = y;
         counter.text++;
-        if (counter.text % 200 === 0) return game.replaceScene(game.scenes.battle);
+        if (counter.text % 400 === 0) return game.replaceScene(game.scenes.battle);
       });
     }
 
@@ -258,8 +258,7 @@
         } else if (flg % 5 === 2) {
           _this.removeChild(_this.eft1);
           btlFlg = false;
-          flg = Math.floor(Math.random() * 5);
-          return console.log("2:flg:" + flg);
+          return _this.game.replaceScene(_this.game.scenes.field);
         } else if (flg % 5 === 3) {
           _this.addChild(_this.eft1);
           btlFlg = true;
@@ -326,34 +325,6 @@
         }
       });
     }
-
-    BattleScene._randEft = function() {
-      this.rand = Math.floor(Math.random() * 9);
-      switch (this.rand) {
-        case 0:
-          return this.eft1.image = this.game.assets["btleffect001.png"];
-        case 1:
-          return this.eft1.image = this.game.assets["btleffect002.png"];
-        case 2:
-          return this.eft1.image = this.game.assets["btleffect003.png"];
-        case 3:
-          return this.eft1.image = this.game.assets["btleffect004.png"];
-        case 4:
-          return this.eft1.image = this.game.assets["btleffect005.png"];
-        case 5:
-          return this.eft1.image = this.game.assets["btleffect006.png"];
-        case 6:
-          return this.eft1.image = this.game.assets["btleffect007.png"];
-        case 7:
-          return this.eft1.image = this.game.assets["btleffect008.png"];
-        case 8:
-          return this.eft1.image = this.game.assets["btleffect009.png"];
-        case 9:
-          return this.eft1.image = this.game.assets["btleffect010.png"];
-        default:
-          return this.eft1.image = this.game.assets["btleffect001.png"];
-      }
-    };
 
     return BattleScene;
 

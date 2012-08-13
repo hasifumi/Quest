@@ -52,9 +52,9 @@ class BattleScene extends Scene
       else if flg % 5 is 2
         @removeChild @eft1
         btlFlg = false
-        #@game.replaceScene @game.scenes.field
-        flg = Math.floor(Math.random()*5)
-        console.log("2:flg:"+flg)
+        @game.replaceScene @game.scenes.field
+        #flg = Math.floor(Math.random()*5)
+        #console.log("2:flg:"+flg)
       else if flg % 5 is 3
         @addChild @eft1
         btlFlg = true
@@ -105,28 +105,28 @@ class BattleScene extends Scene
             @removeChild @eft1
             btlFlg = false
 
-  @_randEft:->
-    @rand = Math.floor(Math.random()*9)
-    switch @rand
-      when 0
-        @eft1.image = @game.assets["btleffect001.png"]
-      when 1
-        @eft1.image = @game.assets["btleffect002.png"]
-      when 2
-        @eft1.image = @game.assets["btleffect003.png"]
-      when 3
-        @eft1.image = @game.assets["btleffect004.png"]
-      when 4
-        @eft1.image = @game.assets["btleffect005.png"]
-      when 5
-        @eft1.image = @game.assets["btleffect006.png"]
-      when 6
-        @eft1.image = @game.assets["btleffect007.png"]
-      when 7
-        @eft1.image = @game.assets["btleffect008.png"]
-      when 8
-        @eft1.image = @game.assets["btleffect009.png"]
-      when 9
-        @eft1.image = @game.assets["btleffect010.png"]
-      else
-        @eft1.image = @game.assets["btleffect001.png"]
+#  @_randEft:->
+#    @rand = Math.floor(Math.random()*9)
+#    switch @rand
+#      when 0
+#        @eft1.image = @game.assets["btleffect001.png"]
+#      when 1
+#        @eft1.image = @game.assets["btleffect002.png"]
+#      when 2
+#        @eft1.image = @game.assets["btleffect003.png"]
+#      when 3
+#        @eft1.image = @game.assets["btleffect004.png"]
+#      when 4
+#        @eft1.image = @game.assets["btleffect005.png"]
+#      when 5
+#        @eft1.image = @game.assets["btleffect006.png"]
+#      when 6
+#        @eft1.image = @game.assets["btleffect007.png"]
+#      when 7
+#        @eft1.image = @game.assets["btleffect008.png"]
+#      when 8
+#        @eft1.image = @game.assets["btleffect009.png"]
+#      when 9
+#        @eft1.image = @game.assets["btleffect010.png"]
+#      else
+#        @eft1.image = @game.assets["btleffect001.png"]
