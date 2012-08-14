@@ -33,12 +33,16 @@ class FieldScene extends Scene
     apad.y = 220
     @addChild apad
 
-    counter = new Label()
-    counter.text = 0
-    counter.x = 50
-    counter.y = 100
-    @addChild counter
+    #counter = new Label()
+    #counter.text = 0
+    #counter.x = 50
+    #counter.y = 100
+    #@addChild counter
 
+    @addEventListener 'enter', (e)->
+      player.x = 0
+      player.y = 0
+      player.isMoving = false
     @addEventListener 'enterframe', (e)->
       x = Math.min((game.width  - 32) / 2 - player.x, 0)
       y = Math.min((game.height - 32) / 2 - player.y, 0)
@@ -46,9 +50,15 @@ class FieldScene extends Scene
       y = Math.max(game.height, y + map001.height) - map001.height
       stage.x = x
       stage.y = y
-      counter.text++
-      if counter.text % 400 is 0
+      #counter.text++
+      #if counter.text % 400 is 0
+      #  game.replaceScene game.scenes.battle
+      if player.intersect(tiled[0].object.encount1)
+        #document.title = tiled[0].object.encount1.message
         game.replaceScene game.scenes.battle
+      else
+        document.title = "Quest"
+        #alert tiled[0].object.encount1.message
 
     #lbl_left = new Label("left:")# {{{
     #lbl_left.color = "red"

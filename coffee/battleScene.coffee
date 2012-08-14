@@ -8,6 +8,14 @@ class BattleScene extends Scene
     bg.image = @game.assets["image/battlebg.png"]
     @addChild bg
 
+    backFS = new Label("back FieldScene")
+    backFS.x = 50
+    backFS.y = 10
+    backFS.color = "red"
+    backFS.addEventListener 'touchend', =>
+      @game.replaceScene @game.scenes.field
+    @addChild backFS
+
     mon1 = new Sprite(120, 120)
     mon1.image = @game.assets["image/enemy001.png"]
     mon1.x = 20
@@ -52,9 +60,9 @@ class BattleScene extends Scene
       else if flg % 5 is 2
         @removeChild @eft1
         btlFlg = false
-        @game.replaceScene @game.scenes.field
-        #flg = Math.floor(Math.random()*5)
-        #console.log("2:flg:"+flg)
+        #@game.replaceScene @game.scenes.field
+        flg = Math.floor(Math.random()*5)
+        console.log("2:flg:"+flg)
       else if flg % 5 is 3
         @addChild @eft1
         btlFlg = true

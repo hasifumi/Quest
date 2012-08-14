@@ -114,6 +114,9 @@
         }
         return currentTimeLbl.text = "currentTime: " + sound.currentTime;
       });
+      this.addEventListener('exit', function() {
+        return sound.stop();
+      });
     }
 
     return TitleScene;
@@ -144,7 +147,7 @@
     __extends(FieldScene, _super);
 
     function FieldScene() {
-      var apad, counter, game, map001, map002, player, stage;
+      var apad, game, map001, map002, player, stage;
       FieldScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
       map001 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
@@ -164,11 +167,11 @@
       apad.x = 0;
       apad.y = 220;
       this.addChild(apad);
-      counter = new Label();
-      counter.text = 0;
-      counter.x = 50;
-      counter.y = 100;
-      this.addChild(counter);
+      this.addEventListener('enter', function(e) {
+        player.x = 0;
+        player.y = 0;
+        return player.isMoving = false;
+      });
       this.addEventListener('enterframe', function(e) {
         var x, y;
         x = Math.min((game.width - 32) / 2 - player.x, 0);
@@ -177,8 +180,11 @@
         y = Math.max(game.height, y + map001.height) - map001.height;
         stage.x = x;
         stage.y = y;
-        counter.text++;
-        if (counter.text % 400 === 0) return game.replaceScene(game.scenes.battle);
+        if (player.intersect(tiled[0].object.encount1)) {
+          return game.replaceScene(game.scenes.battle);
+        } else {
+          return document.title = "Quest";
+        }
       });
     }
 
@@ -264,13 +270,21 @@
     __extends(BattleScene, _super);
 
     function BattleScene() {
-      var bg, btlFlg, flg, mon1, mon2, mon3,
+      var backFS, bg, btlFlg, flg, mon1, mon2, mon3,
         _this = this;
       BattleScene.__super__.constructor.call(this);
       this.game = enchant.Game.instance;
       bg = new Sprite(320, 240);
       bg.image = this.game.assets["image/battlebg.png"];
       this.addChild(bg);
+      backFS = new Label("back FieldScene");
+      backFS.x = 50;
+      backFS.y = 10;
+      backFS.color = "red";
+      backFS.addEventListener('touchend', function() {
+        return _this.game.replaceScene(_this.game.scenes.field);
+      });
+      this.addChild(backFS);
       mon1 = new Sprite(120, 120);
       mon1.image = this.game.assets["image/enemy001.png"];
       mon1.x = 20;
@@ -310,7 +324,8 @@
         } else if (flg % 5 === 2) {
           _this.removeChild(_this.eft1);
           btlFlg = false;
-          return _this.game.replaceScene(_this.game.scenes.field);
+          flg = Math.floor(Math.random() * 5);
+          return console.log("2:flg:" + flg);
         } else if (flg % 5 === 3) {
           _this.addChild(_this.eft1);
           btlFlg = true;

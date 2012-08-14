@@ -57,12 +57,15 @@ class TitleScene extends Scene
     @addEventListener 'enterframe',=>
       if sound_on
         sound.play()
+        #startLbl.font = "20px bold"
+        #pauseLbl.font = "20px normal"
       else
         sound.pause()
+        #startLbl.font = "20px normal"
+        #pauseLbl.font = "20px bold"
       currentTimeLbl.text = "currentTime: "+sound.currentTime
 
-
-    #@addEventListener 'enter',()->
+    #@addEventListener 'enter',=>
     #  sound.play()
-    #@addEventListener 'exit',()->
-    #  sound.stop()
+    @addEventListener 'exit',=>
+      sound.stop()
