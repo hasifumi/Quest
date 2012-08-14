@@ -25,6 +25,7 @@ class Quest extends Game
       "image/btleffect008.png"
       "image/btleffect009.png"
       "image/btleffect010.png"
+      "sound/bgm07.wav"
     ],
   }
   constructor:->

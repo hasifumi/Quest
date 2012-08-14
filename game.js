@@ -13,7 +13,7 @@
       WIDTH: 320,
       HEIGHT: 320,
       FPS: 30,
-      IMAGES: ["image/title.png", "image/effect0.gif", "image/graphic.png", "image/player.png", "image/pad.png", "image/apad.png", "image/battlebg.png", "image/enemy001.png", "image/enemy021.png", "image/enemy030.png", "image/btleffect001.png", "image/btleffect002.png", "image/btleffect003.png", "image/btleffect004.png", "image/btleffect005.png", "image/btleffect006.png", "image/btleffect007.png", "image/btleffect008.png", "image/btleffect009.png", "image/btleffect010.png"]
+      IMAGES: ["image/title.png", "image/effect0.gif", "image/graphic.png", "image/player.png", "image/pad.png", "image/apad.png", "image/battlebg.png", "image/enemy001.png", "image/enemy021.png", "image/enemy030.png", "image/btleffect001.png", "image/btleffect002.png", "image/btleffect003.png", "image/btleffect004.png", "image/btleffect005.png", "image/btleffect006.png", "image/btleffect007.png", "image/btleffect008.png", "image/btleffect009.png", "image/btleffect010.png", "sound/bgm07.wav"]
     };
 
     function Quest() {
@@ -50,21 +50,69 @@
     __extends(TitleScene, _super);
 
     function TitleScene() {
-      var bg, game;
+      var bg, currentTimeLbl, durationLbl, gStartLbl, game, pauseLbl, sound, sound_on, startLbl,
+        _this = this;
       TitleScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
       bg = new Sprite(320, 320);
       bg.image = game.assets["image/title.png"];
       this.addChild(bg);
-      this.addEventListener('touchend', function() {
+      gStartLbl = new Label("Start Game");
+      gStartLbl.x = 50;
+      gStartLbl.y = 100;
+      gStartLbl.font = "30px fantasy";
+      gStartLbl.color = "blue";
+      this.addChild(gStartLbl);
+      gStartLbl.addEventListener('touchend', function() {
         var _this = this;
-        console.log("title touched");
         setInterval(function() {
           return bg.opacity -= 0.1;
         }, 100);
         return setTimeout(function() {
           return game.replaceScene(game.scenes.field);
         }, 1000);
+      });
+      sound_on = false;
+      sound = game.assets["sound/bgm07.wav"].clone();
+      startLbl = new Label("start music");
+      startLbl.x = 50;
+      startLbl.y = 200;
+      startLbl.color = "red";
+      startLbl.font = "20px";
+      this.addChild(startLbl);
+      startLbl.addEventListener('touchend', function() {
+        return sound_on = true;
+      });
+      pauseLbl = new Label("pause music");
+      pauseLbl.x = 180;
+      pauseLbl.y = 200;
+      pauseLbl.color = "red";
+      pauseLbl.font = "20px";
+      this.addChild(pauseLbl);
+      pauseLbl.addEventListener('touchend', function() {
+        return sound_on = false;
+      });
+      durationLbl = new Label();
+      durationLbl.text = "duration: " + sound.duration;
+      durationLbl.x = 50;
+      durationLbl.y = 220;
+      durationLbl.color = "red";
+      durationLbl.font = "20px";
+      this.addChild(durationLbl);
+      currentTimeLbl = new Label();
+      currentTimeLbl.text = "currentTime: " + sound.currentTime;
+      currentTimeLbl.x = 50;
+      currentTimeLbl.y = 230;
+      currentTimeLbl.color = "red";
+      currentTimeLbl.font = "20px";
+      this.addChild(currentTimeLbl);
+      this.addEventListener('enterframe', function() {
+        if (sound_on) {
+          sound.play();
+        } else {
+          sound.pause();
+        }
+        return currentTimeLbl.text = "currentTime: " + sound.currentTime;
       });
     }
 
@@ -96,16 +144,20 @@
     __extends(FieldScene, _super);
 
     function FieldScene() {
-      var apad, counter, game, map001, player, stage;
+      var apad, counter, game, map001, map002, player, stage;
       FieldScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
       map001 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
       map001.image = game.assets[tiled[0].image];
       map001.loadData.apply(map001, tiled[0].background);
       if (tiled[0].collision != null) map001.collisionData = tiled[0].collision;
+      map002 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
+      map002.image = game.assets[tiled[0].image];
+      map002.loadData.apply(map002, tiled[0].foreground);
       player = new Player(map001);
       stage = new Group();
       stage.addChild(map001);
+      stage.addChild(map002);
       stage.addChild(player);
       this.addChild(stage);
       apad = new APad();

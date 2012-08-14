@@ -10,12 +10,16 @@ class FieldScene extends Scene
     if tiled[0].collision?
       map001.collisionData = tiled[0].collision
     #@addChild map001
+    map002 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth)
+    map002.image = game.assets[tiled[0].image]
+    map002.loadData.apply(map002, tiled[0].foreground)
 
     player = new Player(map001)
     #@addChild player
 
     stage = new Group()
     stage.addChild  map001
+    stage.addChild  map002
     stage.addChild  player
     @addChild stage
 
