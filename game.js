@@ -1,5 +1,5 @@
 (function() {
-  var APad, BattleScene, FieldScene, JobSelectScene, Pad, Player, Quest, TitleScene,
+  var APad, BattleScene, FieldScene, JobSelectScene, MessageView, Pad, Player, Quest, TitleScene, roundFrame,
     __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
@@ -26,6 +26,8 @@
       }
       this.preload(tiled[0].image);
       this.onload = function() {
+        this.views = {};
+        this.views.message = new MessageView();
         this.scenes = {};
         this.scenes.title = new TitleScene();
         this.scenes.jobSelect = new JobSelectScene();
@@ -50,7 +52,7 @@
     __extends(TitleScene, _super);
 
     function TitleScene() {
-      var bg, currentTimeLbl, durationLbl, gStartLbl, game, pauseLbl, sound, sound_on, startLbl,
+      var bg, currentTimeLbl, durationLbl, gStartLbl, game, mes, pauseLbl, sound, sound_on, startLbl,
         _this = this;
       TitleScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
@@ -69,7 +71,8 @@
           return bg.opacity -= 0.1;
         }, 100);
         return setTimeout(function() {
-          return game.replaceScene(game.scenes.field);
+          game.replaceScene(game.scenes.field);
+          return console.log("touched");
         }, 1000);
       });
       sound_on = false;
@@ -117,6 +120,11 @@
       this.addEventListener('exit', function() {
         return sound.stop();
       });
+      mes = game.views.message;
+      mes.x = 5;
+      mes.y = 10;
+      mes.setText("Test!</br>Test2!!");
+      this.addChild(mes);
     }
 
     return TitleScene;
@@ -625,5 +633,65 @@
     return APad;
 
   })(Group);
+
+  roundFrame = (function(_super) {
+
+    __extends(roundFrame, _super);
+
+    function roundFrame(w, h, r) {
+      var ctx, sp, sur;
+      roundFrame.__super__.constructor.call(this);
+      sur = new Surface(w, h);
+      ctx = sur.context;
+      ctx.lineWidth = 5;
+      ctx.fillStyle = "#ff8c00";
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.lineTo(w - r, 0);
+      ctx.arc(w - r, r, r, Math.PI * 1.5, 0, false);
+      ctx.lineTo(w, h - r);
+      ctx.arc(w - r, h - r, r, 0, Math.PI * 0.5, false);
+      ctx.lineTo(r, h);
+      ctx.arc(r, h - r, r, Math.PI * 0.5, Math.PI, false);
+      ctx.lineTo(0, r);
+      ctx.arc(r, r, r, Math.PI, Math.PI * 1.5, false);
+      ctx.closePath();
+      ctx.fill();
+      sp = new Sprite(w, h);
+      sp.image = sur;
+      sp.opacity = 0.4;
+      this.addChild(sp);
+    }
+
+    return roundFrame;
+
+  })(Group);
+
+  MessageView = (function(_super) {
+
+    __extends(MessageView, _super);
+
+    function MessageView() {
+      var lbl;
+      MessageView.__super__.constructor.call(this, 310, 26, 5);
+      lbl = new Label("");
+      lbl.font = "12px sans-serif";
+      lbl.color = "white";
+      lbl.x = 5;
+      lbl.width = 310 - 5 * 2;
+      lbl.height = 24;
+      this.addChild(lbl);
+      this.setText = function(text) {
+        return lbl.text = text;
+      };
+    }
+
+    MessageView.prototype.setText = function(text) {
+      return this.setText(text);
+    };
+
+    return MessageView;
+
+  })(roundFrame);
 
 }).call(this);

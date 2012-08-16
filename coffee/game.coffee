@@ -35,6 +35,8 @@ class Quest extends Game
     @preload(tiled[0].image)
     #Quest.game = @
     @onload = ->
+      @views = {}
+      @views.message = new MessageView()
       @scenes = {}
       @scenes.title = new TitleScene()
       @scenes.jobSelect = new JobSelectScene()

@@ -20,6 +20,7 @@ class TitleScene extends Scene
         #game.replaceScene(game.scenes.jobSelect)
         game.replaceScene(game.scenes.field)
         #game.replaceScene(game.scenes.battle)
+        console.log "touched"
       , 1000
 
     sound_on = false
@@ -69,3 +70,9 @@ class TitleScene extends Scene
     #  sound.play()
     @addEventListener 'exit',=>
       sound.stop()
+
+    mes = game.views.message
+    mes.x = 5
+    mes.y = 10
+    mes.setText "Test!</br>Test2!!"
+    @addChild mes

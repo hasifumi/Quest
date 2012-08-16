@@ -10,6 +10,7 @@ FILES = [
   'coffee/player.coffee',
   'coffee/battleScene.coffee',
   'coffee/pad.coffee',
+  'coffee/util.coffee',
 ]
 HTMLFILE = 'index.html'
 
