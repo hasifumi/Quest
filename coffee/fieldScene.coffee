@@ -50,11 +50,7 @@ class FieldScene extends Scene
       y = Math.max(game.height, y + map001.height) - map001.height
       stage.x = x
       stage.y = y
-      #counter.text++
-      #if counter.text % 400 is 0
-      #  game.replaceScene game.scenes.battle
       if player.intersect(tiled[0].object.encount1)
-        #document.title = tiled[0].object.encount1.message
         game.replaceScene game.scenes.battle
       else
         document.title = "Quest"

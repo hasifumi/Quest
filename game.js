@@ -638,29 +638,29 @@
 
     __extends(roundFrame, _super);
 
-    function roundFrame(w, h, r) {
-      var ctx, sp, sur;
+    function roundFrame(w, h, lw) {
+      var ctx, sp1, sp2, sur1, sur2;
       roundFrame.__super__.constructor.call(this);
-      sur = new Surface(w, h);
-      ctx = sur.context;
-      ctx.lineWidth = 5;
-      ctx.fillStyle = "#ff8c00";
-      ctx.beginPath();
-      ctx.moveTo(r, 0);
-      ctx.lineTo(w - r, 0);
-      ctx.arc(w - r, r, r, Math.PI * 1.5, 0, false);
-      ctx.lineTo(w, h - r);
-      ctx.arc(w - r, h - r, r, 0, Math.PI * 0.5, false);
-      ctx.lineTo(r, h);
-      ctx.arc(r, h - r, r, Math.PI * 0.5, Math.PI, false);
-      ctx.lineTo(0, r);
-      ctx.arc(r, r, r, Math.PI, Math.PI * 1.5, false);
-      ctx.closePath();
+      sur1 = new Surface(w, h);
+      ctx = sur1.context;
+      ctx.fillStyle = "white";
+      ctx.rect(0, 0, w, h);
       ctx.fill();
-      sp = new Sprite(w, h);
-      sp.image = sur;
-      sp.opacity = 0.4;
-      this.addChild(sp);
+      sp1 = new Sprite(w, h);
+      sp1.image = sur1;
+      sp1.opacity = 0.4;
+      this.addChild(sp1);
+      sur2 = new Surface(w - lw * 2, h - lw * 2);
+      ctx = sur2.context;
+      ctx.fillStyle = "#ff8c00";
+      ctx.rect(0, 0, w - lw * 2, h - lw * 2);
+      ctx.fill();
+      sp2 = new Sprite(w - lw * 2, h - lw * 2);
+      sp2.image = sur2;
+      sp2.opacity = 0.4;
+      sp2.x = lw;
+      sp2.y = lw;
+      this.addChild(sp2);
     }
 
     return roundFrame;
@@ -673,7 +673,7 @@
 
     function MessageView() {
       var lbl;
-      MessageView.__super__.constructor.call(this, 310, 26, 5);
+      MessageView.__super__.constructor.call(this, 310, 26, 2);
       lbl = new Label("");
       lbl.font = "12px sans-serif";
       lbl.color = "white";

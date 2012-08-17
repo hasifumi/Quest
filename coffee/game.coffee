@@ -33,7 +33,6 @@ class Quest extends Game
     for i in @config.IMAGES
       @preload i
     @preload(tiled[0].image)
-    #Quest.game = @
     @onload = ->
       @views = {}
       @views.message = new MessageView()
