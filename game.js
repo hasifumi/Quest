@@ -158,7 +158,7 @@
     __extends(FieldScene, _super);
 
     function FieldScene() {
-      var apad, currentMap, currentStage, game, i, idx, map_bg, map_fg1, maps, name, objects, player, stages, tmp_stage, value, _len, _ref,
+      var apad, currentMap, currentObject, currentStage, game, i, idx, map_bg, map_fg1, maps, name, objects, player, stages, tmp_stage, value, _len, _ref,
         _this = this;
       FieldScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
@@ -203,11 +203,13 @@
         stages[name] = tmp_stage;
       }
       currentMap = maps.m0.bg;
-      player = new Player(currentMap);
       currentStage = stages.m0;
+      currentObject = objects.m0;
+      player = new Player(currentMap);
+      player.setMap(currentMap);
       currentStage.addChild(player);
-      player.x = objects.m0.playerStartPoint.x;
-      player.y = objects.m0.playerStartPoint.y;
+      player.x = currentObject.playerStartPoint.x;
+      player.y = currentObject.playerStartPoint.y;
       this.addChild(currentStage);
       apad = new APad();
       apad.x = 0;
@@ -217,13 +219,36 @@
         return player.isMoving = false;
       });
       this.addEventListener('enterframe', function(e) {
-        var x, y;
+        var o_name, o_object, x, y;
         x = Math.min((game.width - 32) / 2 - player.x, 0);
         y = Math.min((game.height - 32) / 2 - player.y, 0);
         x = Math.max(game.width, x + currentMap.width) - currentMap.width;
         y = Math.max(game.height, y + currentMap.height) - currentMap.height;
         currentStage.x = x;
-        return currentStage.y = y;
+        currentStage.y = y;
+        for (o_name in currentObject) {
+          o_object = currentObject[o_name];
+          if (player.intersect(o_object)) {
+            console.log("o_object[" + o_name + "]: check");
+            switch (o_name) {
+              case "goMap1":
+                console.log("o_object[goMap1]: start");
+                currentStage.removeChild(player);
+                _this.removeChild(currentStage);
+                _this.removeChild(apad);
+                currentMap = maps.m1.bg;
+                currentStage = stages.m1;
+                currentObject = objects.m1;
+                player.setMap(currentMap);
+                currentStage.addChild(player);
+                player.x = currentObject.playerStartPoint.x;
+                player.y = currentObject.playerStartPoint.y;
+                _this.addChild(currentStage);
+                _this.addChild(apad);
+                return;
+            }
+          }
+        }
       });
     }
 
