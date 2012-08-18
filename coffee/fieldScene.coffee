@@ -13,8 +13,10 @@ class FieldScene extends Scene
     map002 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth)
     map002.image = game.assets[tiled[0].image]
     map002.loadData.apply(map002, tiled[0].foreground)
+    
+    currentMap = map001
 
-    player = new Player(map001)
+    player = new Player(currentMap)
     #@addChild player
 
     stage = new Group()
@@ -46,11 +48,11 @@ class FieldScene extends Scene
     @addEventListener 'enterframe', (e)->
       x = Math.min((game.width  - 32) / 2 - player.x, 0)
       y = Math.min((game.height - 32) / 2 - player.y, 0)
-      x = Math.max(game.width,  x + map001.width)  - map001.width
-      y = Math.max(game.height, y + map001.height) - map001.height
+      x = Math.max(game.width,  x + currentMap.width)  - currentMap.width
+      y = Math.max(game.height, y + currentMap.height) - currentMap.height
       stage.x = x
       stage.y = y
-      if player.intersect(tiled[0].object.encount1)
+      if player.intersect(tiled[0].object.encount1?)
         game.replaceScene game.scenes.battle
       else
         document.title = "Quest"

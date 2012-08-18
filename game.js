@@ -155,7 +155,7 @@
     __extends(FieldScene, _super);
 
     function FieldScene() {
-      var apad, game, map001, map002, player, stage;
+      var apad, currentMap, game, map001, map002, player, stage;
       FieldScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
       map001 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
@@ -165,7 +165,8 @@
       map002 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
       map002.image = game.assets[tiled[0].image];
       map002.loadData.apply(map002, tiled[0].foreground);
-      player = new Player(map001);
+      currentMap = map001;
+      player = new Player(currentMap);
       stage = new Group();
       stage.addChild(map001);
       stage.addChild(map002);
@@ -184,11 +185,11 @@
         var x, y;
         x = Math.min((game.width - 32) / 2 - player.x, 0);
         y = Math.min((game.height - 32) / 2 - player.y, 0);
-        x = Math.max(game.width, x + map001.width) - map001.width;
-        y = Math.max(game.height, y + map001.height) - map001.height;
+        x = Math.max(game.width, x + currentMap.width) - currentMap.width;
+        y = Math.max(game.height, y + currentMap.height) - currentMap.height;
         stage.x = x;
         stage.y = y;
-        if (player.intersect(tiled[0].object.encount1)) {
+        if (player.intersect(tiled[0].object.encount1 != null)) {
           return game.replaceScene(game.scenes.battle);
         } else {
           return document.title = "Quest";
@@ -206,6 +207,7 @@
 
     function Player(map) {
       var game;
+      this.map = map;
       Player.__super__.constructor.call(this, 32, 32);
       game = enchant.Game.instance;
       this.image = game.assets["image/player.png"];
@@ -258,16 +260,17 @@
             } else {
               this.new_y = this.y;
             }
-            if ((0 <= this.new_x) && (this.new_x < map.width) && (0 <= this.new_y) && (this.new_y < map.height) && !map.hitTest(this.new_x, this.new_y)) {
+            if ((0 <= this.new_x) && (this.new_x < this.map.width) && (0 <= this.new_y) && (this.new_y < this.map.height) && !this.map.hitTest(this.new_x, this.new_y)) {
               return this.isMoving = true;
             }
           }
         }
       });
-      this.addEventListener('touchstart', function() {
-        return console.log("player touched");
-      });
     }
+
+    Player.prototype.setMap = function(map) {
+      return this.map = map;
+    };
 
     return Player;
 

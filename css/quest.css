@@ -1,0 +1,17 @@
+
+.message {
+	z-index: 99;
+	background-color: #33EFFF;
+	opacity: 0.7;
+	border-radius: 4px;
+	padding: 2px;
+	word-wrap: break-word;
+	width: 310px;
+}
+
+.command {
+	margin-top: 0.5em;
+	margin-left: 1em;
+	cursor: pointer;
+	color: blue;
+}
