@@ -32,7 +32,9 @@ class Quest extends Game
     super(@config.WIDTH, @config.HEIGHT)
     for i in @config.IMAGES
       @preload i
-    @preload(tiled[0].image)
+    for j in tiled
+      @preload j.image
+    #@preload(tiled[0].image)
     @onload = ->
       @views = {}
       @views.message = new MessageView()

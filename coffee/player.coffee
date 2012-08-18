@@ -12,6 +12,8 @@ class Player extends Sprite
     @old_y = @y
     @new_x = @x
     @new_y = @y
+    @addEventListener 'touchend', =>
+      console.log "player touched x:"+@x+",y:"+@y
     @addEventListener 'enterframe', ->
       @frame = @direction * 3 + @walk
       if @isMoving
@@ -49,6 +51,7 @@ class Player extends Sprite
           else
             @new_y = @y
           if (0<=@new_x) and (@new_x<@map.width) and (0<=@new_y) and (@new_y<@map.height) and !@map.hitTest(@new_x, @new_y)
+          #if (0<=@new_x) and (@new_x<@map.width) and (0<=@new_y) and (@new_y<@map.height)
             @isMoving = true
               
   setMap:(map)->

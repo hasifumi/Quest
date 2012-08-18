@@ -17,14 +17,17 @@
     };
 
     function Quest() {
-      var i, _i, _len, _ref;
+      var i, j, _i, _j, _len, _len2, _ref;
       Quest.__super__.constructor.call(this, this.config.WIDTH, this.config.HEIGHT);
       _ref = this.config.IMAGES;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
         this.preload(i);
       }
-      this.preload(tiled[0].image);
+      for (_j = 0, _len2 = tiled.length; _j < _len2; _j++) {
+        j = tiled[_j];
+        this.preload(j.image);
+      }
       this.onload = function() {
         this.views = {};
         this.views.message = new MessageView();
@@ -155,30 +158,53 @@
     __extends(FieldScene, _super);
 
     function FieldScene() {
-      var apad, currentMap, game, map001, map002, player, stage;
+      var apad, currentMap, currentStage, game, i, idx, map_bg, map_fg1, maps, name, player, stages, tmp_stage, value, _len,
+        _this = this;
       FieldScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
-      map001 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
-      map001.image = game.assets[tiled[0].image];
-      map001.loadData.apply(map001, tiled[0].background);
-      if (tiled[0].collision != null) map001.collisionData = tiled[0].collision;
-      map002 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth);
-      map002.image = game.assets[tiled[0].image];
-      map002.loadData.apply(map002, tiled[0].foreground);
-      currentMap = map001;
+      maps = {};
+      for (idx = 0, _len = tiled.length; idx < _len; idx++) {
+        i = tiled[idx];
+        console.log("maps[m" + idx + "] stored");
+        maps["m" + idx] = {};
+        if (i.background != null) {
+          map_bg = new Map(i.map.tileheight, i.map.tilewidth);
+          map_bg.image = game.assets[i.image];
+          map_bg.loadData.apply(map_bg, i.background);
+          if (i.collision != null) {
+            map_bg.collisionData = i.collision;
+            console.log("maps[m" + idx + "].bg.collision stored");
+          }
+          maps["m" + idx].bg = map_bg;
+          console.log("maps[m" + idx + "].bg stored");
+        }
+        if (i.foreground != null) {
+          map_fg1 = new Map(i.map.tileheight, i.map.tilewidth);
+          map_fg1.image = game.assets[i.image];
+          map_fg1.loadData.apply(map_fg1, i.foreground);
+          maps["m" + idx].fg1 = map_fg1;
+          console.log("maps[m" + idx + "].fg1 stored");
+        }
+      }
+      stages = {};
+      for (name in maps) {
+        value = maps[name];
+        console.log("stages[" + name + "] stored");
+        tmp_stage = new Group();
+        if (value.bg != null) tmp_stage.addChild(value.bg);
+        if (value.fg1 != null) tmp_stage.addChild(value.fg1);
+        stages[name] = tmp_stage;
+      }
+      currentMap = maps.m1.bg;
       player = new Player(currentMap);
-      stage = new Group();
-      stage.addChild(map001);
-      stage.addChild(map002);
-      stage.addChild(player);
-      this.addChild(stage);
+      currentStage = stages.m1;
+      currentStage.addChild(player);
+      this.addChild(currentStage);
       apad = new APad();
       apad.x = 0;
       apad.y = 220;
       this.addChild(apad);
       this.addEventListener('enter', function(e) {
-        player.x = 0;
-        player.y = 0;
         return player.isMoving = false;
       });
       this.addEventListener('enterframe', function(e) {
@@ -187,13 +213,8 @@
         y = Math.min((game.height - 32) / 2 - player.y, 0);
         x = Math.max(game.width, x + currentMap.width) - currentMap.width;
         y = Math.max(game.height, y + currentMap.height) - currentMap.height;
-        stage.x = x;
-        stage.y = y;
-        if (player.intersect(tiled[0].object.encount1 != null)) {
-          return game.replaceScene(game.scenes.battle);
-        } else {
-          return document.title = "Quest";
-        }
+        currentStage.x = x;
+        return currentStage.y = y;
       });
     }
 
@@ -206,7 +227,8 @@
     __extends(Player, _super);
 
     function Player(map) {
-      var game;
+      var game,
+        _this = this;
       this.map = map;
       Player.__super__.constructor.call(this, 32, 32);
       game = enchant.Game.instance;
@@ -219,6 +241,9 @@
       this.old_y = this.y;
       this.new_x = this.x;
       this.new_y = this.y;
+      this.addEventListener('touchend', function() {
+        return console.log("player touched x:" + _this.x + ",y:" + _this.y);
+      });
       this.addEventListener('enterframe', function() {
         this.frame = this.direction * 3 + this.walk;
         if (this.isMoving) {
