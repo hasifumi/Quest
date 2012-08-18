@@ -158,14 +158,14 @@
     __extends(FieldScene, _super);
 
     function FieldScene() {
-      var apad, currentMap, currentStage, game, i, idx, map_bg, map_fg1, maps, name, player, stages, tmp_stage, value, _len,
+      var apad, currentMap, currentStage, game, i, idx, map_bg, map_fg1, maps, name, objects, player, stages, tmp_stage, value, _len, _ref,
         _this = this;
       FieldScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
       maps = {};
+      objects = {};
       for (idx = 0, _len = tiled.length; idx < _len; idx++) {
         i = tiled[idx];
-        console.log("maps[m" + idx + "] stored");
         maps["m" + idx] = {};
         if (i.background != null) {
           map_bg = new Map(i.map.tileheight, i.map.tilewidth);
@@ -185,6 +185,13 @@
           maps["m" + idx].fg1 = map_fg1;
           console.log("maps[m" + idx + "].fg1 stored");
         }
+        objects["m" + idx] = {};
+        _ref = i.object;
+        for (name in _ref) {
+          value = _ref[name];
+          objects["m" + idx][name] = value;
+          console.log("objects[m" + idx + "][" + name + "] stored");
+        }
       }
       stages = {};
       for (name in maps) {
@@ -195,10 +202,12 @@
         if (value.fg1 != null) tmp_stage.addChild(value.fg1);
         stages[name] = tmp_stage;
       }
-      currentMap = maps.m1.bg;
+      currentMap = maps.m0.bg;
       player = new Player(currentMap);
-      currentStage = stages.m1;
+      currentStage = stages.m0;
       currentStage.addChild(player);
+      player.x = objects.m0.playerStartPoint.x;
+      player.y = objects.m0.playerStartPoint.y;
       this.addChild(currentStage);
       apad = new APad();
       apad.x = 0;

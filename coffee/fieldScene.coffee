@@ -5,8 +5,8 @@ class FieldScene extends Scene
     game = enchant.Game.instance
 
     maps = {}# {{{
+    objects = {}
     for i, idx in tiled
-      console.log "maps[m#{idx}] stored"
       maps["m"+idx] = {}
       if i.background?
         map_bg = new Map(i.map.tileheight, i.map.tilewidth)
@@ -23,40 +23,25 @@ class FieldScene extends Scene
         map_fg1.loadData.apply(map_fg1, i.foreground)
         maps["m"+idx].fg1 = map_fg1
         console.log "maps[m#{idx}].fg1 stored"
+      objects["m"+idx] = {}
+      for name, value of i.object
+        objects["m"+idx][name] = value
+        console.log "objects[m#{idx}][#{name}] stored"# }}}
 
-    #map1_bg = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth)# {{{
-    #map1_bg.image = game.assets[tiled[0].image]
-    #map1_bg.loadData.apply(map1_bg, tiled[0].background)
-    #if tiled[0].collision?
-    #  map1_bg.collisionData = tiled[0].collision
-    #map1_fg1 = new Map(tiled[0].map.tileheight, tiled[0].map.tilewidth)
-    #map1_fg1.image = game.assets[tiled[0].image]
-    #map1_fg1.loadData.apply(map1_fg1, tiled[0].foreground)
-    #currentMap = map1_bg
-    #
-    #map2_bg = new Map(tiled[1].map.tileheight, tiled[1].map.tilewidth)
-    #map2_bg.image = game.assets[tiled[1].image]
-    #map2_bg.loadData.apply(map2_bg, tiled[1].background)
-    #if tiled[1].collision?
-    #  map2_bg.collisionData = tiled[1].collision
-    #map2_fg1 = new Map(tiled[1].map.tileheight, tiled[1].map.tilewidth)
-    #map2_fg1.image = game.assets[tiled[1].image]
-    #map2_fg1.loadData.apply(map2_fg1, tiled[1].foreground)
-    ##currentMap = map2_bg
-# }}}
-
-    stages = {}
+    stages = {}# {{{
     for name, value of maps
       console.log "stages[#{name}] stored"
       tmp_stage = new Group()
       if value.bg?  then tmp_stage.addChild value.bg
       if value.fg1? then tmp_stage.addChild value.fg1
-      stages[name] = tmp_stage
+      stages[name] = tmp_stage# }}}
 
-    currentMap = maps.m1.bg
+    currentMap = maps.m0.bg
     player = new Player(currentMap)
-    currentStage = stages.m1
+    currentStage = stages.m0
     currentStage.addChild player
+    player.x = objects.m0.playerStartPoint.x
+    player.y = objects.m0.playerStartPoint.y
     @addChild currentStage
 
     #stage = new Group()# {{{
