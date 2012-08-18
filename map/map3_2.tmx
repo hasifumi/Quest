@@ -75,7 +75,7 @@
   <object name="playerStartPoint" x="32" y="32" width="32" height="32"/>
   <object name="goMap1" x="288" y="192" width="32" height="32">
    <properties>
-    <property name="nextMap" value="map3_3"/>
+    <property name="nextMap" value="map3_1"/>
    </properties>
   </object>
   <object name="goMap2" x="608" y="224" width="32" height="32">
