@@ -7,26 +7,26 @@ class FieldScene extends Scene
     maps = {}# {{{
     objects = {}
     for i, idx in tiled
-      maps["m"+idx] = {}
+      wk_m_name = i.object.mapName.mapName
+      objects[wk_m_name] = {}
+      for name, value of i.object
+        objects[wk_m_name][name] = value
+        console.log "objects[#{wk_m_name}][#{name}] stored"# }}}
+      maps[wk_m_name] = {}
       if i.background?
         map_bg = new Map(i.map.tileheight, i.map.tilewidth)
         map_bg.image = game.assets[i.image]
         map_bg.loadData.apply(map_bg, i.background)
         if i.collision?
           map_bg.collisionData = i.collision
-          console.log "maps[m#{idx}].bg.collision stored"
-        maps["m"+idx].bg = map_bg
-        console.log "maps[m#{idx}].bg stored"
+        maps[wk_m_name].bg = map_bg
+        console.log "maps[#{wk_m_name}].bg stored"
       if i.foreground?
         map_fg1 = new Map(i.map.tileheight, i.map.tilewidth)
         map_fg1.image = game.assets[i.image]
         map_fg1.loadData.apply(map_fg1, i.foreground)
-        maps["m"+idx].fg1 = map_fg1
-        console.log "maps[m#{idx}].fg1 stored"
-      objects["m"+idx] = {}
-      for name, value of i.object
-        objects["m"+idx][name] = value
-        console.log "objects[m#{idx}][#{name}] stored"# }}}
+        maps[wk_m_name].fg1 = map_fg1
+        console.log "maps[#{wk_m_name}].fg1 stored"
 
     stages = {}# {{{
     for name, value of maps
@@ -36,9 +36,9 @@ class FieldScene extends Scene
       if value.fg1? then tmp_stage.addChild value.fg1
       stages[name] = tmp_stage# }}}
 
-    currentMap = maps.m0.bg
-    currentStage = stages.m0
-    currentObject = objects.m0
+    currentMap = maps.map3_2.bg
+    currentStage = stages.map3_2
+    currentObject = objects.map3_2
     player = new Player(currentMap)
     player.setMap currentMap
     currentStage.addChild player
@@ -53,6 +53,9 @@ class FieldScene extends Scene
 
     @addEventListener 'enter', (e)->
       player.isMoving = false
+      #setTimeout ->
+      #  console.debug "sleep"
+      #, 1000
     @addEventListener 'enterframe', (e)=>
       x = Math.min((game.width  - 32) / 2 - player.x, 0)
       y = Math.min((game.height - 32) / 2 - player.y, 0)
@@ -62,17 +65,18 @@ class FieldScene extends Scene
       currentStage.y = y
       for o_name, o_object of currentObject
         if player.intersect(o_object)
-          #console.log "o_object[#{o_name}]: check"
+          console.log "currentObject[#{o_name}]: check"
           switch o_name
-            when "goMap1"
-              #console.log "o_object[goMap1]: start"
+            when "goMap1", "goMap2"
+              console.log "currentObject[goMap1]: start"
+              console.log "o_object.nextMap:"+o_object.nextMap
               currentStage.removeChild player
               @removeChild currentStage
               @removeChild apad
               #currentMap = maps[currentObject.goMap1.nextMap]
-              currentMap    = maps.m1.bg
-              currentStage  = stages.m1
-              currentObject = objects.m1
+              currentMap = maps[o_object.nextMap].bg
+              currentStage  = stages[o_object.nextMap]
+              currentObject = objects[o_object.nextMap]
               player.setMap currentMap
               currentStage.addChild player
               player.x = currentObject.playerStartPoint.x

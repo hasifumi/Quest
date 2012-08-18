@@ -41,17 +41,12 @@
   <object name="playerStartPoint" x="64" y="32" width="32" height="32"/>
   <object name="goMap1" x="224" y="160" width="32" height="32">
    <properties>
-    <property name="nextMap" value="map3_2"/>
+    <property name="nextMap" value="map001"/>
    </properties>
   </object>
   <object name="goMap2" x="480" y="224" width="32" height="32">
    <properties>
-    <property name="nextMap" value="map3_2"/>
-   </properties>
-  </object>
-  <object name="mapName" x="0" y="0">
-   <properties>
-    <property name="mapName" value="map3_3"/>
+    <property name="nextMap" value="map002"/>
    </properties>
   </object>
  </objectgroup>

@@ -158,7 +158,7 @@
     __extends(FieldScene, _super);
 
     function FieldScene() {
-      var apad, currentMap, currentObject, currentStage, game, i, idx, map_bg, map_fg1, maps, name, objects, player, stages, tmp_stage, value, _len, _ref,
+      var apad, currentMap, currentObject, currentStage, game, i, idx, map_bg, map_fg1, maps, name, objects, player, stages, tmp_stage, value, wk_m_name, _len, _ref,
         _this = this;
       FieldScene.__super__.constructor.call(this);
       game = enchant.Game.instance;
@@ -166,31 +166,29 @@
       objects = {};
       for (idx = 0, _len = tiled.length; idx < _len; idx++) {
         i = tiled[idx];
-        maps["m" + idx] = {};
+        wk_m_name = i.object.mapName.mapName;
+        objects[wk_m_name] = {};
+        _ref = i.object;
+        for (name in _ref) {
+          value = _ref[name];
+          objects[wk_m_name][name] = value;
+          console.log("objects[" + wk_m_name + "][" + name + "] stored");
+        }
+        maps[wk_m_name] = {};
         if (i.background != null) {
           map_bg = new Map(i.map.tileheight, i.map.tilewidth);
           map_bg.image = game.assets[i.image];
           map_bg.loadData.apply(map_bg, i.background);
-          if (i.collision != null) {
-            map_bg.collisionData = i.collision;
-            console.log("maps[m" + idx + "].bg.collision stored");
-          }
-          maps["m" + idx].bg = map_bg;
-          console.log("maps[m" + idx + "].bg stored");
+          if (i.collision != null) map_bg.collisionData = i.collision;
+          maps[wk_m_name].bg = map_bg;
+          console.log("maps[" + wk_m_name + "].bg stored");
         }
         if (i.foreground != null) {
           map_fg1 = new Map(i.map.tileheight, i.map.tilewidth);
           map_fg1.image = game.assets[i.image];
           map_fg1.loadData.apply(map_fg1, i.foreground);
-          maps["m" + idx].fg1 = map_fg1;
-          console.log("maps[m" + idx + "].fg1 stored");
-        }
-        objects["m" + idx] = {};
-        _ref = i.object;
-        for (name in _ref) {
-          value = _ref[name];
-          objects["m" + idx][name] = value;
-          console.log("objects[m" + idx + "][" + name + "] stored");
+          maps[wk_m_name].fg1 = map_fg1;
+          console.log("maps[" + wk_m_name + "].fg1 stored");
         }
       }
       stages = {};
@@ -202,9 +200,9 @@
         if (value.fg1 != null) tmp_stage.addChild(value.fg1);
         stages[name] = tmp_stage;
       }
-      currentMap = maps.m0.bg;
-      currentStage = stages.m0;
-      currentObject = objects.m0;
+      currentMap = maps.map3_2.bg;
+      currentStage = stages.map3_2;
+      currentObject = objects.map3_2;
       player = new Player(currentMap);
       player.setMap(currentMap);
       currentStage.addChild(player);
@@ -229,16 +227,18 @@
         for (o_name in currentObject) {
           o_object = currentObject[o_name];
           if (player.intersect(o_object)) {
-            console.log("o_object[" + o_name + "]: check");
+            console.log("currentObject[" + o_name + "]: check");
             switch (o_name) {
               case "goMap1":
-                console.log("o_object[goMap1]: start");
+              case "goMap2":
+                console.log("currentObject[goMap1]: start");
+                console.log("o_object.nextMap:" + o_object.nextMap);
                 currentStage.removeChild(player);
                 _this.removeChild(currentStage);
                 _this.removeChild(apad);
-                currentMap = maps.m1.bg;
-                currentStage = stages.m1;
-                currentObject = objects.m1;
+                currentMap = maps[o_object.nextMap].bg;
+                currentStage = stages[o_object.nextMap];
+                currentObject = objects[o_object.nextMap];
                 player.setMap(currentMap);
                 currentStage.addChild(player);
                 player.x = currentObject.playerStartPoint.x;
