@@ -22,6 +22,7 @@ class TitleScene extends Scene
         #game.replaceScene(game.scenes.battle)
         console.log "touched"
       , 1000
+    gStartLbl.tl.fadeOut(30).fadeIn(30).loop()
 
     sound_on = false
     sound = game.assets["sound/bgm07.wav"].clone()
