@@ -9,8 +9,6 @@ class Quest extends Game
       "image/effect0.gif"
       "image/graphic.png"
       "image/player.png"
-      "image/pad.png"
-      "image/apad.png"
       "image/battlebg.png"
       "image/enemy001.png"
       "image/enemy021.png"
@@ -25,7 +23,6 @@ class Quest extends Game
       "image/btleffect008.png"
       "image/btleffect009.png"
       "image/btleffect010.png"
-      "sound/bgm07.wav"
     ],
   }
   constructor:->

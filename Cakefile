@@ -6,10 +6,9 @@ FILES = [
   'coffee/game.coffee',
   'coffee/titleScene.coffee',
   'coffee/jobSelectScene.coffee',
-  'coffee/fieldScene.coffee',
   'coffee/player.coffee',
+  'coffee/fieldScene.coffee',
   'coffee/battleScene.coffee',
-  'coffee/pad.coffee',
   'coffee/util.coffee',
 ]
 HTMLFILE = 'index.html'

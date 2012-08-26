@@ -46,10 +46,10 @@ class FieldScene extends Scene
     player.y = currentObject.playerStartPoint.y
     @addChild currentStage
 
-    apad = new APad()
-    apad.x = 0
-    apad.y = 220
-    @addChild apad
+    pad = new Pad()
+    pad.x = 0
+    pad.y = 220
+    @addChild pad
 
     @addEventListener 'enter', (e)->
       player.isMoving = false
@@ -72,7 +72,7 @@ class FieldScene extends Scene
               console.log "o_object.nextMap:"+o_object.nextMap
               currentStage.removeChild player
               @removeChild currentStage
-              @removeChild apad
+              @removeChild pad
               #currentMap = maps[currentObject.goMap1.nextMap]
               currentMap = maps[o_object.nextMap].bg
               currentStage  = stages[o_object.nextMap]
@@ -82,13 +82,13 @@ class FieldScene extends Scene
               player.x = currentObject.playerStartPoint.x
               player.y = currentObject.playerStartPoint.y
               @addChild currentStage
-              @addChild apad
+              @addChild pad
               return
 
       #if player.intersect(tiled[0].object.goMap1)
       #  #@removeChild stage
       #  currentStage.removeChild player
-      #  @removeChild apad
+      #  @removeChild pad
       #  currentMap = maps[tiled[0].object.goMap1.nextMap]
       #  stage2.addChild state
       #  player.x = tiled[1].object.playerStartPoint.x
@@ -96,5 +96,5 @@ class FieldScene extends Scene
       #  player.setMap currentMap
       #  @addChild stage2
       #  currentStage = stage2
-      #  @addChild apad
+      #  @addChild pad
 

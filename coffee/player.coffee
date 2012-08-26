@@ -29,16 +29,16 @@ class Player extends Sprite
         @vy = 0
         @old_x = @x
         @old_y = @y
-        if (game.input_t.left)
+        if (game.input.left)
           @direction = 1
           @vx = -4
-        else if (game.input_t.right)
+        else if (game.input.right)
           @direction = 2
           @vx = 4
-        else if (game.input_t.up)
+        else if (game.input.up)
           @direction = 3
           @vy = -4
-        else if (game.input_t.down)
+        else if (game.input.down)
           @direction = 4
           @vy = 4
         if (@vx or @vy)

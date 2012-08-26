@@ -7,6 +7,29 @@ class BattleScene extends Scene
     bg = new Sprite(320, 240)
     bg.image = @game.assets["image/battlebg.png"]
     @addChild bg
+    
+    btnAttack = new Button("Attack", "light")
+    btnAttack.moveTo(0, 200)
+    btnAttack.width = 50
+    btnAttack.height = 60
+    btnAttack.addEventListener 'touchend', ->
+      alert "btnAttack height:"+btnAttack.height+",width:"+btnAttack.width
+    @addChild btnAttack
+
+    dpad = new Pad()
+    @addChild dpad
+    bg.addEventListener 'enterframe', =>
+      if @game.input.left is true
+        console.log "dpad left"
+        @x -= 4
+      if @game.input.right is true
+        console.log "dpad right"
+        @x += 4
+      if @game.input.up is true
+        console.log "dpad up"
+        @y -= 4
+      if @game.input.down is true
+        @y += 4
 
     backFS = new Label("back FieldScene")
     backFS.x = 50
