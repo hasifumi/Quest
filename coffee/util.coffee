@@ -24,8 +24,11 @@ class roundFrame extends Group
     @addChild sp2
 
 class MessageView extends roundFrame
-  constructor:->
-    super(310, 26, 2)
+  constructor:(w, h, lw)->
+    if w? then @w = w else @w = 310
+    if h? then @h = h else @h = 30
+    if lw? then @lw = lw else @lw = 2
+    super(@w, @h, @lw)
     lbl = new Label("")
     lbl.font = "12px sans-serif"
     lbl.color = "white"

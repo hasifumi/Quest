@@ -56,3 +56,4 @@ class Player extends Sprite
               
   setMap:(map)->
     @map = map
+
